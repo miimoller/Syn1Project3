@@ -11,5 +11,9 @@
         synthesizer.Speak("PRESENTING in 3...2...1");
         hide = false;
         synthesizer.Speak("Snowpiercer: The Larson Cut");
+
+        var syn = new SpeechSynthesizer();
+        syn.SetOutputToDefaultAudioDevice();
+        syn.Speak("Hey, I'm only going to write the script though, I'm not a director lol");
     }
 }
