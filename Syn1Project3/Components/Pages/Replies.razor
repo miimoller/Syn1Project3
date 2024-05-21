@@ -1,0 +1,150 @@
+﻿@page "/replies/{index:int}"
+@inject NavigationManager NavigationManager
+
+
+<p> @question </p>
+
+<RadzenSpeechToTextButton Visible="@userInput"  Change="@(args => OnSpeechCaptured(args))" />
+
+<img src="@currentPic" @onload="@doneLoading" />
+
+<RadzenButton Visible="@userInput" Click="@(args => OnSpeechCaptured("Yes"))"> Yes </RadzenButton>
+<RadzenButton Visible="@userInput" Click="@(args => OnSpeechCaptured("No"))"> No </RadzenButton>
+
+
+@code {
+    //<RadzenImage @onloadeddata="@test" Path="@currentPic" Style="width: 15rem;" AlternateText="community" />
+    public bool userInput=false;
+    public void doneLoading()
+    {
+        indexQuestionNumber++;
+        OnSpeechCaptured("");
+    }
+    [Parameter]
+    public int index { get; set; }
+
+    string question;
+    int indexQuestionNumber = 0;
+    string currentPic;
+
+    protected override void OnInitialized()
+    {
+        if (index ==2 | index==4 | index==6 | index==9 | index==11)
+        {
+            currentPic = "Pics/Larson.jpg";
+        }
+        else
+        {
+            currentPic = "Pics/Ho.jpg";
+        }
+        indexQuestionNumber = index;
+
+    }
+    public void speak(string text)
+    {
+        var synthesizer = new SpeechSynthesizer();
+        synthesizer.SetOutputToDefaultAudioDevice();
+        synthesizer.Speak(text);
+    }
+
+
+
+    void OnSpeechCaptured(string speechValue)
+    {
+        var synthesizer = new SpeechSynthesizer();
+        synthesizer.SetOutputToDefaultAudioDevice();
+        if (indexQuestionNumber == 1)
+        {
+            if (speechValue.Contains("Yes", StringComparison.CurrentCultureIgnoreCase))
+            {
+                speak("That is factually correct. In fact many people agree with you. According to a study of one random UCSD kid, he thinks that most of this SYN class felt anxious after the ending of snowpiercer.");
+            }
+            else
+            {
+                speak("You are incorrect. They definitely got eaten by the polar bear at the end of the movie. Its straight up depressing");
+            }
+
+
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+
+        }
+        else if (indexQuestionNumber == 2)
+        {
+
+            speak("Heck no, compared to you're random short stories, Snowpiercer is actually exciting to watch!");
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 3)
+        {
+
+            speak("Hey why do we have the same voice?");
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 4)
+        {
+
+            speak("System 32 only has 1 male voice, but don't break the 4th wall.");
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 5)
+        {
+
+            speak("Oh cool, WAIT, my short stories aren't boring, and at least they don't leave random college kids anxious about the future!");
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 6)
+        {
+
+            speak("You may have a point, but you can't change the ending without my permission. Copyright lets go");
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 7)
+        {
+            speak("Luckly this is in an educational context and Google says it counts under fair use sucker");
+            speak("Do you think I should rewrite Snowpiercer?");
+
+            string q = "Do you think I should rewrite Snowpiercer?";
+            updateQuestion(q);
+            userInput = true;
+
+            indexQuestionNumber++;
+        }
+        else if (indexQuestionNumber == 8)
+        {
+            if (speechValue.Contains("Yes", StringComparison.CurrentCultureIgnoreCase))
+            {
+                speak("Assuming all of the public agrees with that guy, I need to remake Snowpiercer");
+            }
+            else
+            {
+                speak("Bro what the heck, I'm still going to remake it but that just hurt my feelings");
+            }
+
+
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 9)
+        {
+            speak("Ok, but you can agree at least that the beginning was good. Action is a good way to bring in a lot of people");
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 10)
+        {
+            speak("Yea you're right. Even I can't argue with how exciting that was to watch. Can we at least agree that the ending should be fixed?");
+            NavigationManager.NavigateTo($"answer/{indexQuestionNumber++}");
+        }
+        else if (indexQuestionNumber == 11)
+        {
+            speak("Okay, yea, you can rewrite the ending and well see what you guys think about it");
+            NavigationManager.NavigateTo("poster");
+        }
+
+    }
+
+
+    public void updateQuestion(string _question)
+    {
+        question = _question;
+    }
+
+}

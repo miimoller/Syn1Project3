@@ -1,0 +1,15 @@
+﻿@page "/poster"
+<img src="@currentPic" @onload="@doneLoading" hidden="@hide" />
+
+@code {
+    string currentPic = "Pics/LarsonCut.png";
+    bool hide = true;
+    public void doneLoading()
+    {
+        var synthesizer = new SpeechSynthesizer();
+        synthesizer.SelectVoiceByHints(VoiceGender.Female);
+        synthesizer.Speak("PRESENTING in 3...2...1");
+        hide = false;
+        synthesizer.Speak("Snowpiercer: The Larson Cut");
+    }
+}
